@@ -27,7 +27,11 @@ class AuthController extends Controller
                 'regex:/[@$!%*#?&]/', // must contain a special character
             ]
 
-        ]);
+        ],
+        [
+            "password.regex" => "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character.",
+        ]
+        );
 
         if ($validator->fails()) {
             return response()->json([

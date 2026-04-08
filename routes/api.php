@@ -9,11 +9,18 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// Course Routes
-Route::get("/course/index", [CourseController::class, "index"])->middleware("auth:sanctum");
-Route::post("/course/store", [CourseController::class, "store"]);
-Route::patch("/course/update/{id}", [CourseController::class, "update"]);
-Route::delete("/course/delete/{id}", [CourseController::class, "delete"]);
+// For LoggedIn User
+Route::middleware("auth:sanctum")->group(function () {
+    Route::get("/course/index", [CourseController::class, "index"]);
+});
+
+
+// For admin only
+Route::middleware(["auth:sanctum", "admin"])->group(function () {
+    Route::post("/course/store", [CourseController::class, "store"]);
+    Route::patch("/course/update/{id}", [CourseController::class, "update"]);
+    Route::delete("/course/delete/{id}", [CourseController::class, "delete"]);
+});
 
 // Auth Routes
 Route::post("/register", [AuthController::class, "register"]);
