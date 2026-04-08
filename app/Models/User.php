@@ -47,4 +47,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function enrollments()
+    {
+        return $this->belongsTo(Enrollment::class);
+    }
 }
